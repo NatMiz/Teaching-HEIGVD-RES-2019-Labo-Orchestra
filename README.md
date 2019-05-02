@@ -107,13 +107,13 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How can we represent the system in an **architecture diagram**, which gives information both about the Docker containers, the communication protocols and the commands? |
 | | *Insert your diagram here...* |
 |Question | Who is going to **send UDP datagrams** and **when**? |
-| | *Enter your response here...* |
+| | The musicians are going to send UDP datagrams every seconds. |
 |Question | Who is going to **listen for UDP datagrams** and what should happen when a datagram is received? |
-| | *Enter your response here...* |
+| | The auditor is going to listen for UDP datagrams and when receiving one packing it into json. |
 |Question | What **payload** should we put in the UDP datagrams? |
-| | *Enter your response here...* |
+| | The payload should contain the uuid, the instrument played, and the launch timestamp. |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
-| | *Enter your response here...* |
+| | **Receiver:** We need a map to store the musician based on their uuid (this map will be updated every 5 seconds), a field with the last time we heard a musician.  **Sender:** uuid field, instrument field. |
 
 
 ## Task 2: implement a "musician" Node.js application
@@ -121,11 +121,11 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | In a JavaScript program, if we have an object, how can we **serialize it in JSON**? |
-| | *Enter your response here...*  |
+| | `https://stackoverflow.com/questions/8164802/serialize-javascript-object-into-json-string`  |
 |Question | What is **npm**?  |
-| | *Enter your response here...*  |
+| | **npm** is a package manager for *Node.js*.  |
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
-| | *Enter your response here...*  |
+| | `npm install` installs a package, the `--save` flag is used to specify where and how the package must be saved.  |
 |Question | How can we use the `https://www.npmjs.com/` web site?  |
 | | *Enter your response here...*  |
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
