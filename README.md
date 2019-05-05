@@ -127,15 +127,15 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | What is the `npm install` command and what is the purpose of the `--save` flag?  |
 | | `npm install` installs a package, the `--save` flag is used to specify where and how the package must be saved.  |
 |Question | How can we use the `https://www.npmjs.com/` web site?  |
-| | *Enter your response here...*  |
+| | To search for node packages. |
 |Question | In JavaScript, how can we **generate a UUID** compliant with RFC4122? |
-| | *Enter your response here...*  |
+| | By following the guidelines of RFC4122 or using a code that does ([uuid npm package](https://www.npmjs.com/package/uuid)). |
 |Question | In Node.js, how can we execute a function on a **periodic** basis? |
-| | *Enter your response here...*  |
+| | By using the *setInterval()* function (<https://stackoverflow.com/questions/1224463/is-there-any-way-to-call-a-function-periodically-in-javascript>) |
 |Question | In Node.js, how can we **emit UDP datagrams**? |
-| | *Enter your response here...*  |
+| | By creating an UDP socket and make it send UDP datagrams (cf thermometer.js). |
 |Question | In Node.js, how can we **access the command line arguments**? |
-| | *Enter your response here...*  |
+|  | By using the [process object](https://nodejs.org/dist/latest-v12.x/docs/api/process.html#process_process), more precisely the [process.argv](https://nodejs.org/docs/latest/api/process.html#process_process_argv) method. |
 
 
 ## Task 3: package the "musician" app in a Docker image
@@ -143,17 +143,17 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we **define and build our own Docker image**?|
-| | *Enter your response here...*  |
+| | Withe a Dockerfile. |
 |Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?  |
-| | *Enter your response here...*  |
+| | We can suse the entrypoint to pass the arguments to the node.js application inside the container. |
 |Question | After building our Docker image, how do we use it to **run containers**?  |
 | | *Enter your response here...*  |
 |Question | How do we get the list of all **running containers**?  |
-| | *Enter your response here...*  |
+| | `docker ps` |
 |Question | How do we **stop/kill** one running container?  |
-| | *Enter your response here...*  |
+| | `docker stop <container>` and `docker kill <container>` |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
-| | *Enter your response here...*  |
+| | Wireshark ? |
 
 
 ## Task 4: implement an "auditor" Node.js application
