@@ -8,51 +8,51 @@
 */
 
 // Standard node.js module to work with udp
-var datagram = require('dgram');
+const datagram = require('dgram');
 
 const uuidv4 = require('uuid/v4');
 
-var protocol = require('./udpProtocol');
+const protocol = require('./udpProtocol');
 
 // udp4 or udp6 ?
-var socket = datagram.createSocket('udp4'); 
+const socket = datagram.createSocket('udp4');
 
-function Musician(instrument, timeStamp) {
-  this.uuid = uuidv4();
+class Musician {
+  constructor(instrument, timeStamp) {
+    this.uuid = uuidv4();
 
-  this.timeCreation = timeStamp;
+    this.timeCreation = timeStamp;
 
-  this.instrument = instrument;
+    this.instrument = instrument;
 
-  this.instrumentSound = function sound() {
-    switch (this.instrument) {
-      case 'piano':
-        return 'ti-ta-ti';
-      case 'trumpet':
-        return 'pouet';
-      case 'flute':
-        return 'trulu';
-      default:
-        return '';
-    }
-  };
+    this.instrumentSound = function sound() {
+      switch (this.instrument) {
+        case 'piano':
+          return 'ti-ta-ti';
+        case 'trumpet':
+          return 'pouet';
+        case 'flute':
+          return 'trulu';
+        default:
+          return '';
+      }
+    };
+    setInterval(this.update.bind(this), 1000);
+  }
 
-  Musician.prototype.update = function () {
+  update() {
+    const playSound = {
+      uuid: this.uuid,
+      instrument: this.instrument,
+      activeSince: this.timeCreation,
+    };
 
-  var playSound = {
-    uuid: this.uuid,
-    instrument: this.instrument,
-    activeSince: this.timeCreation
-  };
+    const payload = JSON.stringify(playSound);
 
-  var payload = JSON.stringify(playSound);
+    const message = Buffer.from(payload, 'utf-8');
 
-  message = new Buffer(payload);
-
-  socket.send(message, 0, message.length, protocol.PROTOCOL_PORTS, protocol.MULTICAST_ADDRESS, function(err, bytes){
-    console.log("Sending payload: " + payload + " via port " + s.address().port); // DEbug
-  });
-}
-
-  setInterval(this.update.bind(this), 1000);
+    socket.send(message, 0, message.length, protocol.PROTOCOL_PORTS, protocol.MULTICAST_ADDRESS, function(err, bytes) {
+      console.log('Sending payload: ' + payload + ' via port ' + s.address().port + '\n'); // Debug
+    });
+  }
 }
