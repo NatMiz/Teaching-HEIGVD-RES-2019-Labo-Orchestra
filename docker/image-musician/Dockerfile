@@ -8,4 +8,4 @@ WORKDIR /opt/app/
 
 RUN npm install
 
-ENTRYPOINT [ "node ", "/opt/app/musician.js"]
+ENTRYPOINT [ "npm", "start"]
