@@ -3,5 +3,5 @@
  * Based on sensor-protocol.js by Olivier Liechti
  */
 
- exports.PROTOCOL_PORTS = 2205;
- exports.MULTICAST_ADDRESS = "239.255.22.10";
+exports.PROTOCOL_PORTS = 2205;
+exports.MULTICAST_ADDRESS = '239.255.22.10';

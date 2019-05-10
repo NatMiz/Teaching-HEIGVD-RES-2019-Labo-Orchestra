@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /*
   RES - Laboratoire Orchestra
   Student: Musician.js
@@ -51,8 +52,9 @@ class Musician {
 
     const message = Buffer.from(payload, 'utf-8');
 
-    socket.send(message, 0, message.length, protocol.PROTOCOL_PORTS, protocol.MULTICAST_ADDRESS, function(err, bytes) {
-      console.log('Sending payload: ' + payload + ' via port ' + s.address().port + '\n'); // Debug
+    socket.send(message, 0, message.length, protocol.PROTOCOL_PORTS, protocol.MULTICAST_ADDRESS,
+      function (err, bytes) {
+      console.log('Sending payload: ' + payload + ' via port ' + s.address().port + '\r\n'); // Debug
     });
   }
 }
