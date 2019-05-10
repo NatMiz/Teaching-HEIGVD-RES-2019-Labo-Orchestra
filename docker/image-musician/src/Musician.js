@@ -18,11 +18,15 @@ const protocol = require('./udpProtocol');
 // udp4 or udp6 ?
 const socket = datagram.createSocket('udp4');
 
+const arg = process.argv[2];
+
+console.log(arg);
+
 class Musician {
-  constructor(instrument, timeStamp) {
+  constructor(arg) {
     this.uuid = uuidv4();
 
-    this.timeCreation = timeStamp;
+    this.timeCreation = moment();
 
     this.instrument = instrument;
 
