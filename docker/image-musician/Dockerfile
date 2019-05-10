@@ -1,7 +1,11 @@
-FROM node
+FROM node:12.2.0
 
 LABEL author="NatMiz" labo='Orchestra'
 
-WORKDIR /usr/src/app
+COPY src /opt/app/
 
-COPY 
+WORKDIR /opt/app/
+
+RUN npm install
+
+ENTRYPOINT [ "node ", "/opt/app/musician.js"]
