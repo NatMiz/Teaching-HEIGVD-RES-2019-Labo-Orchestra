@@ -165,7 +165,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?  |
 | | *Enter your response here...* |
 |Question | How can we use the `Moment.js` npm module to help us with **date manipulations** and formatting?  |
-| | *Enter your response here...* |
+| | By reading the [Moment.js documentation](http://momentjs.com/docs/), we find that we could use the `add` and `substract` functions to manipulate date. The function `format` is of use to format the date. |
 |Question | When and how do we **get rid of inactive players**?  |
 | | *Enter your response here...* |
 |Question | How do I implement a **simple TCP server** in Node.js?  |
