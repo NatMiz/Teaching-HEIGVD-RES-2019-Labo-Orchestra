@@ -113,7 +113,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | What **payload** should we put in the UDP datagrams? |
 | | The payload should contain the uuid, the instrument played, and the launch timestamp. |
 |Question | What **data structures** do we need in the UDP sender and receiver? When will we update these data structures? When will we query these data structures? |
-| | **Receiver:** We need a map to store the musician based on their uuid (this map will be updated every 5 seconds), a field with the last time we heard a musician.  **Sender:** uuid field, instrument field. |
+| | **Receiver:** We need a map to store the musician based on their uuid (this map will be updated every 5 seconds), a field with the last time we heard a musician.  **Sender:** uuid field, instrument field, instrument sound field. |
 
 
 ## Task 2: implement a "musician" Node.js application
@@ -147,13 +147,13 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | How can we use the `ENTRYPOINT` statement in our Dockerfile?  |
 | | We can suse the entrypoint to pass the arguments to the node.js application inside the container. |
 |Question | After building our Docker image, how do we use it to **run containers**?  |
-| | We build it. |
+| | We build it. `docker build -t res/musician <instrument>` |
 |Question | How do we get the list of all **running containers**?  |
 | | `docker ps` |
 |Question | How do we **stop/kill** one running container?  |
 | | `docker stop <container>` and `docker kill <container>` |
 |Question | How can we check that our running containers are effectively sending UDP datagrams?  |
-| | Wireshark ? netcat? |
+| | `tcpdump -X` |
 
 
 ## Task 4: implement an "auditor" Node.js application
@@ -163,13 +163,13 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 |Question | With Node.js, how can we listen for UDP datagrams in a multicast group? |
 | | We need to susbcribe to a multicast group. |
 |Question | How can we use the `Map` built-in object introduced in ECMAScript 6 to implement a **dictionary**?  |
-| | *Enter your response here...* |
+| | We use the [`Map` Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map) to keep a track of all active musicians by using their `uuid` as key and the last time they produce a sound as value. |
 |Question | How can we use the `Moment.js` npm module to help us with **date manipulations** and formatting?  |
 | | By reading the [Moment.js documentation](http://momentjs.com/docs/), we find that we could use the `add` and `substract` functions to manipulate date. The function `format` is of use to format the date. |
 |Question | When and how do we **get rid of inactive players**?  |
-| | *Enter your response here...* |
+| | We get rid of every player that not been active for at least 5 seconds. We do so by removing them from the map. |
 |Question | How do I implement a **simple TCP server** in Node.js?  |
-| | *Enter your response here...* |
+| | You bind the application to a socket and make it do something upon receiving a datagram. One can follow this [example](https://riptutorial.com/node-js/example/22405/a-simple-tcp-server) and the `station.js` implementation. |
 
 
 ## Task 5: package the "auditor" app in a Docker image
@@ -177,7 +177,7 @@ When you connect to the TCP interface of the **Auditor**, you should receive an 
 | #  | Topic |
 | ---  | --- |
 |Question | How do we validate that the whole system works, once we have built our Docker image? |
-| | *Enter your response here...* |
+| | We launch the script `validate.sh`. |
 
 
 ## Constraints
