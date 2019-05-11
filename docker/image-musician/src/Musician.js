@@ -13,43 +13,52 @@ const datagram = require('dgram');
 
 const uuidv4 = require('uuid/v4');
 
+const moment = require('moment');
+
 const protocol = require('./udpProtocol');
 
-// udp4 or udp6 ?
 const socket = datagram.createSocket('udp4');
 
-const arg = process.argv[2];
-
-console.log(arg);
-
 class Musician {
-  constructor(arg) {
+  constructor(instrument) {
+    // The uuid is generated a the musician creation
     this.uuid = uuidv4();
 
+    // We keep a timestamp of the musician's creation
     this.timeCreation = moment();
 
     this.instrument = instrument;
 
-    this.instrumentSound = function sound() {
-      switch (this.instrument) {
-        case 'piano':
-          return 'ti-ta-ti';
-        case 'trumpet':
-          return 'pouet';
-        case 'flute':
-          return 'trulu';
-        default:
-          return '';
-      }
-    };
+    switch (this.instrument) {
+      case 'piano':
+        this.instrumentSound = 'ti-ta-ti';
+        break;
+      case 'trumpet':
+        this.instrumentSound =  'pouet';
+        break;
+      case 'flute':
+        this.instrumentSound = 'trulu';
+        break;
+      case 'violin':
+        this.instrumentSound = 'gzi-gzi';
+        break;
+      case 'drum':
+        this.instrumentSound = 'boum-boum';
+        break;
+      default:
+        this.instrumentSound = '';
+    }
+
+    console.log('Sound: ' + this.instrumentSound);
+
+    // Every second the musician will produce a sound
     setInterval(this.update.bind(this), 1000);
   }
 
   update() {
     const playSound = {
       uuid: this.uuid,
-      instrument: this.instrument,
-      activeSince: this.timeCreation,
+      instrumentSound: this.instrumentSound,
     };
 
     const payload = JSON.stringify(playSound);
@@ -58,7 +67,13 @@ class Musician {
 
     socket.send(message, 0, message.length, protocol.PROTOCOL_PORTS, protocol.MULTICAST_ADDRESS,
       function (err, bytes) {
-      console.log('Sending payload: ' + payload + ' via port ' + s.address().port + '\r\n'); // Debug
+      console.log('Sending payload: ' + payload + ' via port ' + socket.address().port + '\r\n'); // Debug
     });
   }
 }
+
+const arg = process.argv[2];
+
+console.log(arg);
+
+let mus = new Musician(arg);
