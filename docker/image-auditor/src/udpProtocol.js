@@ -3,7 +3,7 @@
  * Based on sensor-protocol.js by Olivier Liechti
  */
 
-exports.PROTOCOL_PORTS = 2205;
+exports.PROTOCOL_PORT = 2205;
 /* address to use: 239.255.22.10
    adress for test with netcat: 127.0.0.1
 */

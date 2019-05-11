@@ -1,6 +1,6 @@
 FROM node:12.2.0
 
-LABEL author="NatMiz" labo='Orchestra'
+LABEL author="NatMiz" labo="Orchestra" file="Musician.js"
 
 COPY src /opt/app/
 

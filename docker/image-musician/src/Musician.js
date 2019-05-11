@@ -57,6 +57,7 @@ class Musician {
     const playSound = {
       uuid: this.uuid,
       instrumentSound: this.instrumentSound,
+      creation: this.timeCreation,
     };
 
     const payload = JSON.stringify(playSound);
