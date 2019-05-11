@@ -49,8 +49,6 @@ class Musician {
         this.instrumentSound = '';
     }
 
-    console.log('Sound: ' + this.instrumentSound);
-
     // Every second the musician will produce a sound
     setInterval(this.update.bind(this), 1000);
   }
