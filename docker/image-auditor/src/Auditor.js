@@ -8,7 +8,7 @@
 
  const dgram = require('dgram');
 
- const s = dgram.createSocket('udp4');
+ const socket = dgram.createSocket('udp4');
 
  const protocol = require('./udpProtocol');
 
@@ -61,22 +61,25 @@
 
  let auditor = new Auditor();
 
+ socket.bind(protocol.MULTICAST_PORT, function(){
+     console.log('Joining multicast group\r\n');
+    socket.addMembership(protocol.MULTICAST_ADDRESS);
+ });
+
  server.listen(protocol.PROTOCOL_PORT, function() {
      console.log('Server listening on ' + protocol.PROTOCOL_PORT);
  });
 
- server.on('connection', function(socket) {
+ server.on('connection', function(sourceSocket) {
 
     console.log('Connection received\r\n');
 
-    //socket.write('Connection established\r\n' + auditor.toStringArray() + '\r\n', 'utf-8');
-
     // Send an array
-    socket.write(auditor.toStringArray(), 'utf-8');
-    socket.write('\r\n', 'utf-8');
+    sourceSocket.write(auditor.toStringArray(), 'utf-8');
+    sourceSocket.write('\r\n', 'utf-8');
 
     // Close the connection
-    socket.end();
+    sourceSocket.end();
 
     /*
     server.on('close', function(socket) {
@@ -91,7 +94,9 @@
  });
 
  // When we receive a UDP datagram
- server.on('message', function(msg, socket){
+ socket.on('message', function(msg, sourceSocket){
+    console.log('Datagram received\r\n' + msg);
+
     let data = JSON.parse(msg);
 
     auditor.update(data.uuid);
@@ -101,12 +106,10 @@
         instrument: auditor.getInstrument(data.instrumentSound),
         activeSince: creationTime,
     }
-
     const payload = JSON.stringify(content);
-
     const message = Buffer.from(payload, 'utf-8');
 
-    s.send(message, 0, message.length, protocol.PROTOCOL_PORT, protocol.MULTICAST_ADDRESS,
+    socket.send(message, 0, message.length, protocol.PROTOCOL_PORT, protocol.MULTICAST_ADDRESS,
         function(error, bytes) {
             console.log('Error: ${err}\nBytes: ${bytes}');
         });

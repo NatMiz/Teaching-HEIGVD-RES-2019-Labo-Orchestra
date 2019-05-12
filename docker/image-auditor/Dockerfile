@@ -6,6 +6,8 @@ COPY src /opt/app/
 
 WORKDIR /opt/app/
 
+EXPOSE 2205
+
 RUN npm install
 
-ENTRYPOINT [ "npm", "start" ]
+CMD [ "npm", "start" ]
