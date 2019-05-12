@@ -10,14 +10,26 @@
  const protocol = require('./udpProtocol');
 
  const socket = dgram.createSocket('udp4');
- let musicians = new Map();
+ const musicians = new Map();
 
  const server = net.createServer(function(sourceSocket) {
 
     console.log('Connection received\r\n');
 
-    // Send an array
-    sourceSocket.write(JSON.stringify(musicians), 'utf-8');
+    let iter = musicians.values();
+
+    for(i = 0; i < musicians.size; i++){
+        let infos = iter.next().value;
+
+        let payload = {
+            uuid: infos.uuid,
+            instrument: infos.instrument,
+            activeSince: infos.activeSince,
+        }
+
+        sourceSocket.write(JSON.stringify(payload));
+    }
+    
     sourceSocket.write('\r\n', 'utf-8');
 
     // Close the connection
@@ -48,13 +60,13 @@ server.on('error', function() {
         activeSince: data.creation,
         timestamp: moment(),
     }
-    musicians.set(data.uuid, musician);
+    musicians.set(musician.uuid, musician);
 });
 
 setInterval(function() {
     musicians.forEach(function(value, key, map) {
-        if(!moment(map.get(key)).isBetween(moment().subtract(5, "seconds"), moment())){
+        if(moment().subtract(map.get(key).timestamp) > 5000){
             map.delete(key);
         }
     })
-});
+}, 10000);
