@@ -8,7 +8,7 @@
 
  const dgram = require('dgram');
 
- const s = dgram.createSocket('up4');
+ const s = dgram.createSocket('udp4');
 
  const protocol = require('./udpProtocol');
 
@@ -22,11 +22,11 @@
         this.musicians = new Map();
 
         this.instrument = new Map();
-        instrument.set('ti-ta-ti', 'piano');
-        instrument.set('pouet', 'trumpet');
-        instrument.set('trulu', 'flute');
-        instrument.set('gzi-gzi', 'violin');
-        instrument.set('boum-boum', 'drum');
+        this.instrument.set('ti-ta-ti', 'piano');
+        this.instrument.set('pouet', 'trumpet');
+        this.instrument.set('trulu', 'flute');
+        this.instrument.set('gzi-gzi', 'violin');
+        this.instrument.set('boum-boum', 'drum');
      }
 
      update(id){
@@ -45,32 +45,45 @@
         return this.instrument.get(sound);
     }
 
-    toString() {
+    toStringArray() {
+
         let iter = this.musicians.values();
 
-        array = new Array(this.musicians.size());
+        let array = new Array(this.musicians.size);
 
-        for(let i = 0; i < this.musicians.size(); i++) {
+        for(let i = 0; i < this.musicians.size; i++) {
             array[i] = iter.next().value;
         }
 
-        return array;
+        return '[' + array.toString() + ']';
     }
 }
 
  let auditor = new Auditor();
 
- server.listen(protocol.PROTOCOL_PORT);
+ server.listen(protocol.PROTOCOL_PORT, function() {
+     console.log('Server listening on ' + protocol.PROTOCOL_PORT);
+ });
 
  server.on('connection', function(socket) {
 
-    socket.write(musicians);  // TODO send an array
+    console.log('Connection received\r\n');
 
+    //socket.write('Connection established\r\n' + auditor.toStringArray() + '\r\n', 'utf-8');
+
+    // Send an array
+    socket.write(auditor.toStringArray(), 'utf-8');
+    socket.write('\r\n', 'utf-8');
+
+    // Close the connection
+    socket.end();
+
+    /*
     server.on('close', function(socket) {
         socket.send('\r\n');
-
         socket.close();
     });
+    */
    
     server.on('error', function() {
         console.log('Error: ${err}');
