@@ -10,13 +10,9 @@
 
 // Standard node.js module to work with udp
 const datagram = require('dgram');
-
 const uuidv4 = require('uuid/v4');
-
 const moment = require('moment');
-
 const protocol = require('./udpProtocol');
-
 const socket = datagram.createSocket('udp4');
 
 class Musician {
@@ -56,6 +52,7 @@ class Musician {
   update() {
     const playSound = {
       uuid: this.uuid,
+      instrument: this.instrument,
       instrumentSound: this.instrumentSound,
       creation: this.timeCreation,
     };
@@ -66,7 +63,7 @@ class Musician {
 
     socket.send(message, 0, message.length, protocol.MULTICAST_PORT, protocol.MULTICAST_ADDRESS,
       function (err, bytes) {
-      console.log('Sending payload: ' + payload + ' via port ' + socket.address().port + '\r\n'); // Debug
+      console.log('Sending payload: ' + payload + ' via port ' + socket.address().port + '\r\n');
     });
   }
 }

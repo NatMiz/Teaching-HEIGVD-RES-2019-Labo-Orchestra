@@ -1,4 +1,4 @@
-FROM node:12.2.0
+FROM node
 
 LABEL author="NatMiz" labo="Orchestra" file="Musician.js"
 
@@ -8,4 +8,4 @@ WORKDIR /opt/app/
 
 RUN npm install
 
-ENTRYPOINT [ "npm", "start"]
+ENTRYPOINT [ "node", "Musician.js"]

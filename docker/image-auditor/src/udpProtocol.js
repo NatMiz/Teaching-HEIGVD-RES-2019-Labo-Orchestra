@@ -9,5 +9,5 @@ exports.PROTOCOL_PORT = 2205;
 // For receiving UDP datagram
 exports.MULTICAST_PORT = 3205;
 
-// Adress in the administratively scoped multicast range
+// Address in the administratively scoped multicast range
 exports.MULTICAST_ADDRESS = '239.255.22.10';
