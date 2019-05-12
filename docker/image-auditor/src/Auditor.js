@@ -16,6 +16,8 @@
 
     console.log('Connection received\r\n');
 
+    let musiciansAlive = [];
+
     let iter = musicians.values();
 
     for(i = 0; i < musicians.size; i++){
@@ -27,9 +29,10 @@
             activeSince: infos.activeSince,
         }
 
-        sourceSocket.write(JSON.stringify(payload));
+        musiciansAlive.push(payload);
     }
-    
+
+    sourceSocket.write(JSON.stringify(musiciansAlive));
     sourceSocket.write('\r\n', 'utf-8');
 
     // Close the connection
@@ -64,9 +67,13 @@ server.on('error', function() {
 });
 
 setInterval(function() {
+    let current = moment();
+    console.log('current:' + current + '\n');
+
     musicians.forEach(function(value, key, map) {
-        if(moment().subtract(map.get(key).timestamp) > 5000){
+        console.log('timestamp:' + map.get(key).timestamp + '\n');
+        if(current - map.get(key).timestamp > 5010){
             map.delete(key);
         }
     })
-}, 10000);
+}, 4000);
